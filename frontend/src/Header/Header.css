@@ -1,0 +1,19 @@
+.Header{
+    width: 100%;
+    background-color: #646cff;
+    color: white;
+    display: flex;
+}
+.subtitle{
+    margin: 0;
+    width: 25%;
+    text-align: left;
+}
+.title{
+    margin: 0;
+    width: 50%;
+}
+.logo-bar{
+    margin: 0;
+    width: 25%;
+}

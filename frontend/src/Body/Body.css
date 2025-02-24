@@ -1,0 +1,13 @@
+.upper-tab{
+    height: 100px;
+}
+.main-pane{
+    width: 81%;
+    margin: auto;
+    border: 2px solid crimson;
+    border-radius: 15px;
+    min-height: 500px;
+}
+.numChoose{
+    width: 30px;
+}
