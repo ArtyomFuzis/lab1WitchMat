@@ -43,9 +43,9 @@ function Body() {
                     <h4>{state.res.SolutionsType == "one" && "Система линейных уравнений имеет одно решение"}</h4>
                     <h4>{state.res.SolutionsType == "none" && "Система линейных уравнений не имеет решений"}</h4>
                     <h4>{state.res.SolutionsType == "infinity" && "Система линейных уравнений имеет бесконечное количество решений"}</h4>
-                    <h4>Треугольная матрица: </h4><OutMatrix matrix={state.res.Triangle}/>
-                    <h4>Решения:</h4><OutVector matrix={state.res.X}/>
-                    <h4>Невязки:</h4><OutVector matrix={state.res.Discrepancy}/>
+                    {state.res.Triangle && <span><h4>Треугольная матрица: </h4><OutMatrix matrix={state.res.Triangle}/></span>}
+                    {state.res.X && <span><h4>Решения:</h4><OutVector matrix={state.res.X}/></span>}
+                    {state.res.Discrepancy && <span><h4>Невязки:</h4><OutVector matrix={state.res.Discrepancy}/></span>}
                 </div>
             </div> : null}
         </div>

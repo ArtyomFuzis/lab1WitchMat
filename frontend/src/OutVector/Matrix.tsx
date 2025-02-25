@@ -24,7 +24,6 @@ function OutVector(props: MatProps) {
         <div className="matrix-pane">
             <table className="matrix">
                 <tbody>
-
                         {props.matrix.map((row, indexRow = 0) => {
                             return (
                                 <tr key={`${indexRow}`}>
