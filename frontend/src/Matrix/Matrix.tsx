@@ -1,8 +1,10 @@
 import "./Matrix.css"
 import React from "react";
-interface MatSize {
+interface MatProps {
     xSize: number;
     ySize: number;
+    setRes: (matrix_arr) => void;
+    setSizes: (xSize: number, ySize: number) => void;
 }
 function create_matrix(){
     const matrix = Array(20)
@@ -11,7 +13,14 @@ function create_matrix(){
     }
     return matrix;
 }
-function Matrix(props: MatSize) {
+function getval(indexRow : number, indexCol: number, matrix){
+    const preres = matrix[indexRow]
+    if (preres == undefined){
+        return 0;
+    }
+    return matrix[indexRow][indexCol];
+}
+function Matrix(props: MatProps) {
     const [state, setState] = React.useState({
         matrix: create_matrix()
     })
@@ -33,7 +42,7 @@ function Matrix(props: MatSize) {
                                         <input
                                             className="matrix-input number-to-text"
                                             type="number"
-                                            value={state.matrix[indexRow][indexColumn]}
+                                            value={getval(indexRow, indexColumn,state.matrix)}
                                             onChange={(e) => {
                                                 const mat2 = state.matrix;
                                                 mat2[indexRow][indexColumn] = Number(e.target.value)
@@ -50,11 +59,44 @@ function Matrix(props: MatSize) {
                 </tbody>
             </table>
             <div className="matrix-control-pane">
-                <button className="matrix-control-button matrix-button-reset" onClick={() =>{
+                <button className="matrix-control-button matrix-button-reset" onClick={() => {
                     setState({matrix: create_matrix()})
-                }}>Очистить</button>
-                <button className="matrix-control-button matrix-button-file">Из файла</button>
-                <button className="matrix-control-button matrix-button-send">Отправить</button>
+                }}>Очистить
+                </button>
+                <button className="matrix-control-button matrix-button-send" onClick={() => {
+                    const new_matrix = Object.create(state.matrix).slice(0, props.ySize)
+                    for (let i = 0; i < props.ySize; i++) {
+                        new_matrix[i] = new_matrix[i].slice(0, props.xSize)
+                    }
+                    fetch('/api/lab1', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({matrix: new_matrix})
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Сетевая ошибка')
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            props.setRes(data)
+                        })
+                        .catch(error => console.error('Ошибка:', error))
+                }}>Отправить
+                </button>
+                <input type='file' className="matrix-control-button matrix-button-file" onChange={(e) => {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.readAsText(file);
+                    reader.onload = function () {
+                        const parsed = JSON.parse(reader.result)["matrix"]
+                        setState({...state, matrix:parsed})
+                        props.setSizes(parsed[0].length, parsed.length)
+                    }
+                }}/>
             </div>
         </div>
     )

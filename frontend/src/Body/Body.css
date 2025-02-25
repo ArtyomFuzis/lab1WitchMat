@@ -11,3 +11,15 @@
 .numChoose{
     width: 30px;
 }
+.res-pane{
+    width: 81%;
+    margin: auto;
+    margin-top: 2%;
+    border: 2px solid crimson;
+    border-radius: 15px;
+}
+.res-box{
+    margin: auto;
+    width: 70%;
+    text-align: left;
+}

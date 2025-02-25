@@ -1,7 +1,6 @@
 package Services
 
 import (
-	"log"
 	"math"
 	"witchmat/Transfer"
 )
@@ -44,7 +43,6 @@ func SolveLab1(inp Transfer.Lab1GetDTO) Transfer.Lab1ReturnDTO {
 		}
 		determinant *= matrix[i][varind]
 		determinantCnt++
-		log.Println(determinantCnt)
 		matrix[i][varind] = 1
 		for i2 := i + 1; i2 < ySize; i2++ {
 			if matrix[i2][varind] != 0 {
